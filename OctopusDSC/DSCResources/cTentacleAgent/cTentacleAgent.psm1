@@ -446,7 +446,9 @@ function New-Tentacle {
         [bool]$registerWithServer = $true,
         [Parameter(Mandatory = $False)]
         [string]$octopusServerThumbprint,
-        [PSCredential]$TentacleServiceCredential
+        [PSCredential]$TentacleServiceCredential,
+        [Parameter(Mandatory = $False)]
+        [string[]]$proxy = "",
     )
 
     if ($port -eq 0) {
@@ -582,6 +584,11 @@ function New-Tentacle {
                     $registerArguments += $tt2.Trim()
                 }
             }
+        }
+
+        if ($proxy -ne "") {
+            $registerArguments += "--proxy"
+            $registerArguments += $proxy.Trim()
         }
 
         Write-Verbose "Registering with arguments: $registerArguments"
